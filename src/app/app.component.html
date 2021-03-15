@@ -1,28 +1,65 @@
-<div *ngIf="voiceActiveSectionDisabled; else voicesection;">
-  <button type="button" (click)="startVoiceRecognition()">Record</button>
-</div>
-<ng-template #voicesection>
-  <ng-container
-    *ngIf="!voiceActiveSectionError; else failure">
-    <ng-container
-      *ngIf="voiceText; else start">
-        <span>{{voiceText}}</span>
-    </ng-container>
-    <ng-template #start>
-      <ng-container
-        *ngIf="voiceActiveSectionListening; else beginning">
-        <span>Listening...</span>
-      </ng-container>
-      <ng-template #beginning>
-        <span>Start talking...</span>
-      </ng-template>
-    </ng-template>
-  </ng-container>
-  <ng-template #failure>
-    <span>Didn't catch that</span>
-  </ng-template>
-  <div>
-    <button (click)="closeVoiceRecognition()">Close</button>
-    <button (click)="startVoiceRecognition()">Restart</button>
+  <div class="navbar-strip"></div>
+  <div class="greeting">
+    Hi <span style="color: #e20808; font-weight: 600"> {{ user }} </span>
   </div>
-</ng-template>
+  <div *ngIf="!wordCloud">
+  <div class="recording-icon-row">
+    Are you
+    <i
+      class="fa fa-microphone microphone-icon"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      title="Click and record"
+      aria-hidden="true"
+      (click)="startVoiceRecognition()"
+    ></i>
+    ready !
+  </div>
+
+  <div class="speech-alert" #voicesection>
+    <ng-container *ngIf="!voiceActiveSectionError; else failure">
+      <ng-container *ngIf="voiceText; else start">
+        <span
+          >Great! Click
+          <span
+            style="font-weight: 600; text-decoration: underline"
+            (click)="showWordCloud()"
+            >here</span
+          >
+          to check word-cloud</span
+        >
+      </ng-container>
+      <ng-template #start>
+        <ng-container *ngIf="voiceActiveSectionListening; else beginning">
+          <span>Listening...</span>
+        </ng-container>
+        <ng-template #beginning>
+          <span>Click on microphone and record</span>
+        </ng-template>
+      </ng-template>
+    </ng-container>
+    <ng-template #failure>
+      <span>Didn't catch that</span>
+    </ng-template>
+  </div>
+
+  <ng-template #content>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="dismissModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Hello, World!</p>
+    </div>
+    <div class="modal-footer"></div>
+  </ng-template>
+</div>
+
+<div *ngIf="wordCloud"> Word-cloud</div>
