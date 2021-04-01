@@ -1,3 +1,10 @@
+$font-size-1: 0.75rem;
+$font-size-2: 1.15rem;
+$font-size-3: 1.35rem;
+$font-size-4: 1.95rem;
+$font-size-5: 2.25rem;
+$font-size-6: 2.65rem;
+
 .greeting{
     margin-top: 5rem;
     margin-left: 7rem;
@@ -29,5 +36,87 @@
     font-size: smaller;
     text-align: center;
     font-weight: 600;
+}
+
+.word-cloud-box{
+    border: 2px solid black;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #d09c13;
+    border-radius: 10px;
+    font-family: emoji;
+    font-weight: 600;
+    background: rgb(0 0 0 / 8%)
+}
+
+.words-position {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.words-padding {
+  padding: 1vh 0.4vw;
+}
+
+.word-pointer {
+  cursor: pointer !important;
+}
+
+.word-size-5 {
+  font-size: $font-size-5;
+  color: nb-theme(primary-color);
+
+  @extend .word-size;
+
+  &:hover {
+    font-size: $font-size-6;
+  }
+}
+
+.word-size-4 {
+  font-size: $font-size-4;
+  color: nb-theme(success-color);
+  @extend .word-size;
+
+  &:hover {
+    font-size: $font-size-5;
+  }
+}
+
+.word-size-3 {
+  font-size: $font-size-3;
+  color: nb-theme(chart-purple);
+  @extend .word-size;
+
+  &:hover {
+    font-size: $font-size-4;
+  }
+}
+
+.word-size-2 {
+  font-size: $font-size-2;
+  color: nb-theme(chart-purple);
+  @extend .word-size;
+
+  &:hover {
+    font-size: $font-size-3;
+  }
+}
+
+.word-size-1 {
+  font-size: $font-size-1;
+  color: nb-theme(success-color);
+  @extend .word-size;
+
+  &:hover {
+    font-size: $font-size-2;
+  }
+}
+
+.word-size {
+  transition-property: transform, font-size;
+  transition-duration: 1s ease-in-out;
 }
 

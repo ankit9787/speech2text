@@ -15,15 +15,17 @@ declare const annyang: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  closeResult: string = '';
+  showCloud: boolean = false;
+  user: string = 'ankit';
   voiceActiveSectionDisabled: boolean = true;
   voiceActiveSectionError: boolean = false;
   voiceActiveSectionSuccess: boolean = false;
   voiceActiveSectionListening: boolean = false;
   voiceText: any;
-  closeResult: string = '';
-  user: string = 'ankit';
+  wordCloud: any = {};
+
   @ViewChild('content') openModal!: ElementRef;
-  wordCloud: boolean = false;
 
   constructor(private ngZone: NgZone, private modalService: NgbModal) {}
 
@@ -65,6 +67,8 @@ export class AppComponent implements OnInit {
       if (this.voiceText === undefined) {
         this.ngZone.run(() => (this.voiceActiveSectionError = true));
         annyang.abort();
+      } else {
+        this.generateWordCloud();
       }
     });
 
@@ -76,7 +80,6 @@ export class AppComponent implements OnInit {
       annyang.abort();
 
       this.voiceText = queryText;
-
       this.ngZone.run(() => (this.voiceActiveSectionListening = false));
       this.ngZone.run(() => (this.voiceActiveSectionSuccess = true));
     });
@@ -113,7 +116,16 @@ export class AppComponent implements OnInit {
     }
   }
 
-  showWordCloud() {
-    this.wordCloud = true;
+  showWordCloud(): void {
+    this.showCloud = true;
+  }
+
+  generateWordCloud(): void {
+    let words = this.voiceText.split(' ');
+    for (let i = 0; i < words.length; i++) {
+      let wordCount = this.wordCloud[words[i]];
+      let count = wordCount ? wordCount : 0;
+      this.wordCloud[words[i]] = count + 1;
+    }
   }
 }

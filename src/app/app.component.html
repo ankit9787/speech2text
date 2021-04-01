@@ -2,7 +2,7 @@
   <div class="greeting">
     Hi <span style="color: #e20808; font-weight: 600"> {{ user }} </span>
   </div>
-  <div *ngIf="!wordCloud">
+  <div *ngIf="!showCloud">
   <div class="recording-icon-row">
     Are you
     <i
@@ -61,5 +61,17 @@
     <div class="modal-footer"></div>
   </ng-template>
 </div>
+<div *ngIf="showCloud" class="d-flex flex-row"> 
+  <div style="margin-left: 15rem; font-size: 15vh;">Word</div> 
+  <div class="word-cloud-box">
+    <div class="words-position " >
+      <div *ngFor="let word of wordCloud | keyvalue">
+        <div class="words-padding word-size" tabindex="0" [ngClass]="'word-size-' + word.value">
+          <div class="word-pointer">{{ word.key }}</div>
+        </div>
+      </div>
+    </div>
 
-<div *ngIf="wordCloud"> Word-cloud</div>
+  </div>
+  <div style="margin-right: 15rem; font-size: 15vh;">Cloud</div>
+</div>
