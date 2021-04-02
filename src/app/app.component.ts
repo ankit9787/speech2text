@@ -16,8 +16,10 @@ declare const annyang: any;
 })
 export class AppComponent implements OnInit {
   closeResult: string = '';
+  isUsername: boolean = false;
   showCloud: boolean = false;
-  user: string = 'ankit';
+  styles: any = {};
+  username!: string;
   voiceActiveSectionDisabled: boolean = true;
   voiceActiveSectionError: boolean = false;
   voiceActiveSectionSuccess: boolean = false;
@@ -32,19 +34,49 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    //this.open();
+    this.open();
   }
 
-  open() {
-    const modalRef = this.modalService.open(this.openModal, {
-      keyboard: false,
-      backdrop: 'static',
-    });
-    //modalRef.componentInstance.lesson = lesson;
+  backToRecording(): void {
+    this.voiceText = '';
+    this.voiceText = undefined;
+    this.showCloud = false;
+  }
+
+  closeVoiceRecognition(): void {
+    this.voiceActiveSectionDisabled = true;
+    this.voiceActiveSectionError = false;
+    this.voiceActiveSectionSuccess = false;
+    this.voiceActiveSectionListening = false;
+    this.voiceText = undefined;
+
+    if (annyang) {
+      annyang.abort();
+    }
   }
 
   dismissModal() {
     this.modalService.dismissAll();
+    this.isUsername = true;
+  }
+
+  generateWordCloud(): void {
+    let words = this.voiceText.split(' ');
+    for (let i = 0; i < words.length; i++) {
+      let wordCount = this.wordCloud[words[i]];
+      let count = wordCount ? wordCount : 0;
+      this.wordCloud[words[i]] = count + 1;
+    }
+  }
+
+  getColor() {
+    let letters = '012Y8DFD8D34567';
+    let code = "#";
+    for (var i = 0; i < 6; i++) {
+      code += letters[Math.floor(Math.random() * 16)];
+    }
+    this.styles.color =  code;
+    return this.styles;
   }
 
   initializeVoiceRecognitionCallback(): void {
@@ -85,6 +117,13 @@ export class AppComponent implements OnInit {
     });
   }
 
+  open() {
+    const modalRef = this.modalService.open(this.openModal, {
+      keyboard: false,
+      backdrop: 'static',
+    });
+  }
+
   startVoiceRecognition(): void {
     this.voiceActiveSectionDisabled = false;
     this.voiceActiveSectionError = false;
@@ -104,28 +143,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  closeVoiceRecognition(): void {
-    this.voiceActiveSectionDisabled = true;
-    this.voiceActiveSectionError = false;
-    this.voiceActiveSectionSuccess = false;
-    this.voiceActiveSectionListening = false;
-    this.voiceText = undefined;
-
-    if (annyang) {
-      annyang.abort();
-    }
-  }
-
   showWordCloud(): void {
     this.showCloud = true;
-  }
-
-  generateWordCloud(): void {
-    let words = this.voiceText.split(' ');
-    for (let i = 0; i < words.length; i++) {
-      let wordCount = this.wordCloud[words[i]];
-      let count = wordCount ? wordCount : 0;
-      this.wordCloud[words[i]] = count + 1;
-    }
   }
 }

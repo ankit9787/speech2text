@@ -1,8 +1,12 @@
-  <div class="navbar-strip"></div>
-  <div class="greeting">
-    Hi <span style="color: #e20808; font-weight: 600"> {{ user }} </span>
-  </div>
-  <div *ngIf="!showCloud">
+<div class="navbar-strip"></div>
+<div class="greeting-strip">
+<div class="greeting">
+  Hi <span style="color: #e20808; font-weight: 600" *ngIf="isUsername"> {{ username }} </span>
+</div>
+<div *ngIf="showCloud" class="back"> <button class="btn btn-info" style="background: #8b0000d9; 
+border: #8b0000d9;" (click)="backToRecording()">Back</button></div>
+</div>
+<div *ngIf="!showCloud">
   <div class="recording-icon-row">
     Are you
     <i
@@ -22,7 +26,7 @@
         <span
           >Great! Click
           <span
-            style="font-weight: 600; text-decoration: underline"
+            style="font-weight: 600; text-decoration: underline; cursor: pointer;"
             (click)="showWordCloud()"
             >here</span
           >
@@ -46,32 +50,38 @@
   <ng-template #content>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-      <button
+      <!-- <button
         type="button"
         class="close"
         aria-label="Close"
         (click)="dismissModal()"
       >
         <span aria-hidden="true">&times;</span>
-      </button>
+      </button> -->
     </div>
     <div class="modal-body">
-      <p>Hello, World!</p>
+      <p>Your name <input type="text" class="name" [(ngModel)]="username"></p>
     </div>
-    <div class="modal-footer"></div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="dismissModal()" [disabled]="!username">Done</button>
+    </div>
   </ng-template>
 </div>
-<div *ngIf="showCloud" class="d-flex flex-row"> 
-  <div style="margin-left: 15rem; font-size: 15vh;">Word</div> 
+<div *ngIf="showCloud" class="d-flex flex-row">
+  <div style="margin-left: 15rem; font-size: 15vh">Word</div>
   <div class="word-cloud-box">
-    <div class="words-position " >
+    <div class="words-position">
       <div *ngFor="let word of wordCloud | keyvalue">
-        <div class="words-padding word-size" tabindex="0" [ngClass]="'word-size-' + word.value">
+        <div
+          class="words-padding word-size"
+          tabindex="0"
+          [ngClass]="'word-size-' + word.value"
+          [ngStyle]="getColor()"
+        >
           <div class="word-pointer">{{ word.key }}</div>
         </div>
       </div>
     </div>
-
   </div>
-  <div style="margin-right: 15rem; font-size: 15vh;">Cloud</div>
+  <div style="margin-right: 15rem; font-size: 15vh">Cloud</div>
 </div>
