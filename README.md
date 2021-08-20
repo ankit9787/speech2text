@@ -2,7 +2,7 @@
 
 Angular project to record your audio and get a word cloud out of it.
 
-Firebase deployed - https://todo-angular-web.web.app/
+Firebase deployed - https://word-cloud-angular.web.app/
 
 annayang.Js has been used as third party library to support audio recording in project. You can refer repo - https://github.com/TalAter/annyang
 
